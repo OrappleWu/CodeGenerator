@@ -1,0 +1,15 @@
+package #@BASE_PACKAGE@#.controller;
+
+import #@ROOT_PACKAGE@#.base.BaseController;
+import #@BASE_PACKAGE@#.entity.ChatRoom;
+import #@BASE_PACKAGE@#.service.IChatRoomService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+#@AUTHOR_INFO@#
+
+@RestController
+@RequestMapping("#@REQUEST_URL@#")
+public class #@ENTITY_NAME@#Controller extends BaseController<I#@ENTITY_NAME@#Service, #@ENTITY_NAME@#> {
+
+}

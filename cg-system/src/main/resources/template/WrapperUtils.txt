@@ -1,0 +1,131 @@
+package #@ROOT_PACKAGE@#.utils;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+#@AUTHOR_INFO@#
+
+public final class WrapperUtils {
+
+    private WrapperUtils(){}
+
+    public static <T> QueryWrapper<T> initQueryWrapper(T condition, Map<String, String> searchRule,
+                                                       List<Map<String, String>> orderRule) {
+        QueryWrapper<T> wrapper = new QueryWrapper<>();
+
+        Field[] fields = condition.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            if("serialVersionUID".equals(field.getName())){
+                continue;
+            }
+            try {
+                field.setAccessible(true);
+                Object obj;
+                if ((obj = field.get(condition)) != null) {
+                    doWrapperConditionInit(wrapper, field, obj, searchRule);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        doWrapperOrderByInit(wrapper, orderRule);
+
+        return wrapper;
+    }
+
+    private static <T> void doWrapperConditionInit(QueryWrapper<T> wrapper, Field field, Object obj,
+                                                   Map<String, String> searchRule) {
+        if (searchRule == null) {
+            wrapper.eq(initJavaFieldToDataBaseColumn(field.getName()), obj);
+            return;
+        }
+        String rule = searchRule.get(field.getName());
+
+        if (rule != null && rule.trim().length() > 0) {
+            final String ruleVal = rule.trim().toUpperCase();
+            if (ruleVal.equals("LIKE")) {
+                wrapper.like(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("LIKE-R")) {
+                wrapper.likeRight(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("LIKE-L")) {
+                wrapper.likeLeft(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("IN")) {
+                wrapper.in(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("LT")) {
+                wrapper.lt(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("GT")) {
+                wrapper.gt(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("LE")) {
+                wrapper.le(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("GE")) {
+                wrapper.ge(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("NE")) {
+                wrapper.ne(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+            if (ruleVal.equals("LIKE-NOT")) {
+                wrapper.notLike(initJavaFieldToDataBaseColumn(field.getName()), obj);
+                return;
+            }
+        }
+        wrapper.eq(initJavaFieldToDataBaseColumn(field.getName()), obj);
+    }
+
+    private static <T> void doWrapperOrderByInit(QueryWrapper<T> wrapper, List<Map<String, String>> orderRule) {
+        if (orderRule == null) {
+            return;
+        }
+        for (Map<String, String> map : orderRule) {
+            if (map.keySet().size() == 1) {
+                map.forEach((k, v) -> {
+                    if ("ASC".equals(v.trim().toUpperCase())) {
+                        wrapper.orderByAsc(initJavaFieldToDataBaseColumn(k));
+                    } else if ("DESC".equals(v.trim().toUpperCase())) {
+                        wrapper.orderByDesc(initJavaFieldToDataBaseColumn(k));
+                    }
+                });
+            }
+        }
+    }
+
+    private static String initJavaFieldToDataBaseColumn(String javaFieldName) {
+        StringBuilder sb = new StringBuilder();
+        char[] chars = javaFieldName.toCharArray();
+
+        for (char ch : chars) {
+            if (ch >= 65 && ch <= 90) {
+                sb.append("_").append(ch);
+            }else{
+                sb.append((char)(ch - 32));
+            }
+        }
+        String result = sb.toString();
+        if (result.startsWith("_")) {
+            return result.substring(1);
+        }
+
+        return result;
+    }
+
+}

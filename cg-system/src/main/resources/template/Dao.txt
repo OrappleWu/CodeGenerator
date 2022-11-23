@@ -1,0 +1,11 @@
+package #@BASE_PACKAGE@#.dao;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import #@BASE_PACKAGE@#.entity.#@ENTITY_NAME@#;
+import org.apache.ibatis.annotations.Mapper;
+
+#@AUTHOR_INFO@#
+
+@Mapper
+public interface I#@ENTITY_NAME@#Dao extends BaseMapper<#@ENTITY_NAME@#> {
+}

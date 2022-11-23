@@ -1,0 +1,14 @@
+package #@BASE_PACKAGE@#.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import #@BASE_PACKAGE@#.dao.I#@ENTITY_NAME@#Dao;
+import #@BASE_PACKAGE@#.service.I#@ENTITY_NAME@#Service;
+import #@BASE_PACKAGE@#.entity.#@ENTITY_NAME@#;
+import org.springframework.stereotype.Service;
+
+#@AUTHOR_INFO@#
+
+@Service
+public class #@ENTITY_NAME@#ServiceImpl extends ServiceImpl<I#@ENTITY_NAME@#Dao, #@ENTITY_NAME@#> implements I#@ENTITY_NAME@#Service {
+
+}

@@ -1,0 +1,10 @@
+package #@BASE_PACKAGE@#.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import #@BASE_PACKAGE@#.entity.#@ENTITY_NAME@#;
+
+#@AUTHOR_INFO@#
+
+public interface I#@ENTITY_NAME@#Service extends IService<#@ENTITY_NAME@#> {
+
+}
