@@ -3,7 +3,6 @@ package com.orapple.code.generator.template;
 import com.orapple.code.generator.AbstractCodeTemplate;
 import com.orapple.code.generator.content.CodeTemplateContext;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;

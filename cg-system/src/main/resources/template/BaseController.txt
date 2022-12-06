@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import #@ROOT_PACKAGE@#.param.SearchByPage;
 import #@ROOT_PACKAGE@#.utils.WrapperUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ public abstract class BaseController<S extends IService<T>, T> {
     protected S baseService;
 
     @PostMapping("/list/by/page")
+    @ApiOperation("分页查询列表信息")
     public Page<T> queryListByPage(@RequestBody SearchByPage<T> pageParam) {
         Page<T> page = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
         QueryWrapper<T> wrapper = WrapperUtils.initQueryWrapper(pageParam.getCondition(),

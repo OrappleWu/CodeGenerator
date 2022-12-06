@@ -104,7 +104,7 @@ public abstract class AbstractCodeTemplate {
         fileReader.close();
     }
 
-    private List<FieldColumnBean> initAllEntityFields(String tableName) throws Exception {
+    private List<FieldColumnBean> initAllEntityFields(String tableName) {
         String url = CodeTemplateContext.getVal(DATABASE_URL);
         final String db = url.substring(url.lastIndexOf("/") + 1);
         final String sql = "select column_name, data_type, column_comment from information_schema.columns " +
@@ -159,7 +159,7 @@ public abstract class AbstractCodeTemplate {
         return path.replaceAll("\\.", "/");
     }
 
-    protected File initFile(String filePath, String fileName) throws IOException {
+    protected File initFile(String filePath, String fileName) {
         File file = new File(filePath + "/" + fileName);
         if (file.exists()) {
             file.delete();
